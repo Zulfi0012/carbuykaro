@@ -1,0 +1,20 @@
+modules = ["nodejs-20", "web"]
+
+[nix]
+channel = "stable-24_05"
+
+[workflows]
+runButton = "Dev Server"
+
+[[workflows.workflow]]
+name = "Dev Server"
+author = 45438772
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+
+[[ports]]
+localPort = 5000
+externalPort = 80

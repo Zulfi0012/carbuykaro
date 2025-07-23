@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import matter from 'gray-matter';
-import AdSlot from '../components/AdSlot';
+import AdSlot from '../components/Adslot';
 
 function Post() {
   const { slug } = useParams();
@@ -10,10 +10,18 @@ function Post() {
 
   useEffect(() => {
     const loadPost = async () => {
-      const file = await import(../posts/${slug}.md);
-      const raw = file.default;
-      const { content, data } = matter(raw);
-      setPost({ content, data });
+      try {
+        const file = await import(`../posts/${slug}.md`);
+        const raw = file.default;
+        const { content, data } = matter(raw);
+        setPost({ content, data });
+      } catch (error) {
+        console.error('Error loading post:', error);
+        setPost({ 
+          content: 'Post not found', 
+          data: { title: 'Post Not Found', date: '' } 
+        });
+      }
     };
 
     loadPost();

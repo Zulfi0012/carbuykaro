@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import matter from 'gray-matter';
-import AdSlot from '../components/AdSlot';
+import AdSlot from '../components/Adslot';
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -32,13 +32,17 @@ function Home() {
   return (
     <div>
       <h2 className="mb-4">Latest Blog Posts</h2>
-      {filtered.map(post => (
-        <div key={post.slug} className="mb-4 border-bottom pb-3">
-          <h4><Link to={/post/${post.slug}}>{post.title}</Link></h4>
-          <small className="text-muted">{post.date}</small>
-          <p>{post.excerpt}</p>
-        </div>
-      ))}
+      {filtered.length > 0 ? (
+        filtered.map(post => (
+          <div key={post.slug} className="mb-4 border-bottom pb-3">
+            <h4><Link to={`/post/${post.slug}`}>{post.title}</Link></h4>
+            <small className="text-muted">{post.date}</small>
+            <p>{post.excerpt || 'No excerpt available'}</p>
+          </div>
+        ))
+      ) : (
+        <p>No posts found. Loading...</p>
+      )}
       <AdSlot slotName="Homepage Footer Ad" />
     </div>
   );
